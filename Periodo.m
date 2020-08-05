@@ -7,6 +7,7 @@ let
     #"Changed Type1" = Table.TransformColumnTypes(#"Inserted First Characters",{{"First Characters", Int64.Type}}),
     #"Inserted Text After Delimiter" = Table.AddColumn(#"Changed Type1", "Text After Delimiter", each Text.AfterDelimiter([MesAno], "m"), type text),
     #"Changed Type 2" = Table.TransformColumnTypes(#"Inserted Text After Delimiter",{{"MesAno", type text}, {"Data", type date}, {"Text After Delimiter", Int64.Type}}),
-    #"Extracting the m" = Table.AddColumn(#"Changed Type 2", "Cod_Mes", each Text.Middle([MesAno],4 ,3), type text)
+    #"Extracting the m" = Table.AddColumn(#"Changed Type 2", "Cod_Mes", each Text.Middle([MesAno],4 ,3), type text),
+    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Extracting the m",{"CISP", "mes_ano", "AISP", "munic", "Cod_Munic_IBGE", "Regiao"}, "Ocorrencias", "Qtde")
 in
-    #"Extracting the m"
+    #"Unpivoted Columns"
